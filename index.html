@@ -41,6 +41,22 @@
         margin-bottom: 20px;
       }
 
+      .values {
+        display: flex;
+        justify-content: space-around;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #334155;
+      }
+
+      .values span {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 12px;
+        background-color: #f1f5f9;
+      }
+
       canvas {
         width: 100% !important;
         height: auto !important;
@@ -50,6 +66,10 @@
   <body>
     <div class="container">
       <h1>📊 Évolution des valeurs ARENH</h1>
+      <div class="values">
+        <span>wARENH : <strong id="warenh">--</strong></span>
+        <span>woARENH : <strong id="woarenh">--</strong></span>
+      </div>
       <canvas id="myChart" aria-label="Graphique des données ARENH" role="img"></canvas>
     </div>
 
@@ -71,6 +91,10 @@
           wARENH.push(+val1);
           woARENH.push(+val2);
         }
+
+        // Met à jour les dernières valeurs dans le DOM
+        document.getElementById("warenh").textContent = wARENH.at(-1).toFixed(2) + " €";
+        document.getElementById("woarenh").textContent = woARENH.at(-1).toFixed(2) + " €";
 
         const ctx = document.getElementById("myChart").getContext("2d");
 
@@ -155,4 +179,5 @@
     </script>
   </body>
 </html>
+
 
