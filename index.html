@@ -177,3 +177,156 @@
 </html>
 
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comparaison de prix – papernest</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #ffffff, #f0f4ff);
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 920px;
+      width: 100%;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      padding: 32px 24px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #5a52ff;
+      margin-bottom: 24px;
+    }
+
+    .legend-inline {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 12px;
+    }
+
+    .legend-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      color: #334155;
+    }
+
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      border-radius: 16px;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">⚡ Comparaison des prix : Option 1 vs Option 2</h2>
+    <div class="legend-inline">
+      <div class="legend-box"><div class="legend-dot" style="background:#5a52ff;"></div> Option 1</div>
+      <div class="legend-box"><div class="legend-dot" style="background:#0fc4b2;"></div> Option 2</div>
+    </div>
+    <canvas id="priceChart"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById("priceChart").getContext("2d");
+
+    const gradient1 = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient1.addColorStop(0, "rgba(90, 82, 255, 0.3)");
+    gradient1.addColorStop(1, "rgba(90, 82, 255, 0)");
+
+    const gradient2 = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient2.addColorStop(0, "rgba(15, 196, 178, 0.3)");
+    gradient2.addColorStop(1, "rgba(15, 196, 178, 0)");
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+        datasets: [
+          {
+            label: "Option 1",
+            data: [55, 58, 54, 59, 60, 62, 65],
+            borderColor: "#5a52ff",
+            backgroundColor: gradient1,
+            tension: 0.35,
+            fill: true,
+            pointRadius: 3,
+            pointBackgroundColor: "#5a52ff"
+          },
+          {
+            label: "Option 2",
+            data: [52, 56, 53, 57, 59, 61, 63],
+            borderColor: "#0fc4b2",
+            backgroundColor: gradient2,
+            tension: 0.35,
+            fill: true,
+            pointRadius: 3,
+            pointBackgroundColor: "#0fc4b2"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: "#fff",
+            borderColor: "#e2e8f0",
+            borderWidth: 1,
+            titleColor: "#1e293b",
+            bodyColor: "#334155",
+            padding: 12,
+            titleFont: { weight: '700' },
+            bodyFont: { weight: '500' }
+          }
+        },
+        scales: {
+          y: {
+            ticks: {
+              color: "#64748b",
+              callback: value => value + " €"
+            },
+            grid: {
+              color: "rgba(100,100,100,0.05)"
+            }
+          },
+          x: {
+            ticks: {
+              color: "#64748b"
+            },
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
+
