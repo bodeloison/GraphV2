@@ -2,56 +2,38 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Comparatif ARENH – papernest</title>
+  <title>Comparatif ARENH</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #ffffff;
       margin: 0;
-      padding: 30px 20px;
+      background-color: #f9fafb;
+      font-family: 'Inter', sans-serif;
       display: flex;
       justify-content: center;
+      align-items: center;
+      padding: 40px 16px;
+      box-sizing: border-box;
     }
 
-      .container {
-  max-width: 920px;
-  width: 100%;
-  background: linear-gradient(to bottom right, #fdfbfb, #ebedee);
-  border-radius: 18px;
-  padding: 30px 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-}
+    .chart-wrapper {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      padding: 24px;
+      max-width: 940px;
+      width: 100%;
+    }
 
-.title {
-  font-size: 26px;
-  font-weight: 800;
-  color: #262b3d;
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.subtext {
-  text-align: center;
-  font-size: 16px;
-  color: #4b5563;
-  margin-bottom: 24px;
-}
-
-canvas {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 12px;
-}
-
-    
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="title">⚡ Évolution des prix ARENH</div>
-    <div class="subtext" id="latestText">Chargement en cours...</div>
+  <div class="chart-wrapper">
     <canvas id="myChart"></canvas>
   </div>
 
@@ -67,25 +49,19 @@ canvas {
         rows.forEach(row => {
           const [date, val1, val2] = row.split(",");
           labels.push(date);
-          wARENH.push(+val1);
-          woARENH.push(+val2);
+          wARENH.push(parseFloat(val1));
+          woARENH.push(parseFloat(val2));
         });
-
-        // Met à jour le texte du haut avec la dernière date
-        const lastDate = labels.at(-1);
-        const lastW = wARENH.at(-1).toFixed(2);
-        const lastWo = woARENH.at(-1).toFixed(2);
-        document.getElementById("latestText").textContent = `📅 Au ${lastDate}, le prix avec ARENH est de ${lastW} € contre ${lastWo} € sans ARENH.`;
 
         const ctx = document.getElementById("myChart").getContext("2d");
 
-        const gradient1 = ctx.createLinearGradient(0, 0, 0, 300);
-        gradient1.addColorStop(0, "rgba(90, 82, 255, 0.3)");
-        gradient1.addColorStop(1, "rgba(90, 82, 255, 0)");
+        const gradientBlue = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientBlue.addColorStop(0, "rgba(56, 189, 248, 0.4)");
+        gradientBlue.addColorStop(1, "rgba(56, 189, 248, 0)");
 
-        const gradient2 = ctx.createLinearGradient(0, 0, 0, 300);
-        gradient2.addColorStop(0, "rgba(15, 196, 178, 0.3)");
-        gradient2.addColorStop(1, "rgba(15, 196, 178, 0)");
+        const gradientGreen = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientGreen.addColorStop(0, "rgba(16, 185, 129, 0.4)");
+        gradientGreen.addColorStop(1, "rgba(16, 185, 129, 0)");
 
         new Chart(ctx, {
           type: "line",
@@ -93,72 +69,72 @@ canvas {
             labels: labels,
             datasets: [
               {
-                label: "wARENH",
+                label: "Avec ARENH",
                 data: wARENH,
-                borderColor: "#5a52ff",
-                backgroundColor: gradient1,
+                borderColor: "#10b981",
+                backgroundColor: gradientGreen,
                 fill: true,
-                tension: 0.4,
-                pointRadius: 3,
-                pointBackgroundColor: "#5a52ff"
+                tension: 0.3,
+                pointRadius: 2,
+                pointBackgroundColor: "#10b981"
               },
               {
-                label: "woARENH",
+                label: "Sans ARENH",
                 data: woARENH,
-                borderColor: "#0fc4b2",
-                backgroundColor: gradient2,
+                borderColor: "#38bdf8",
+                backgroundColor: gradientBlue,
                 fill: true,
-                tension: 0.4,
-                pointRadius: 3,
-                pointBackgroundColor: "#0fc4b2"
+                tension: 0.3,
+                pointRadius: 2,
+                pointBackgroundColor: "#38bdf8"
               }
             ]
           },
           options: {
             responsive: true,
-            interaction: {
-              mode: 'nearest',
-              intersect: false
-            },
             plugins: {
-              tooltip: {
-                enabled: true,
-                backgroundColor: "#ffffff",
-                borderColor: "#e2e8f0",
-                borderWidth: 1,
-                titleColor: "#1e293b",
-                bodyColor: "#475569",
-                padding: 12,
-                titleFont: { weight: '700' },
-                bodyFont: { weight: '500' },
-                callbacks: {
-                  label: ctx => `${ctx.dataset.label} : ${ctx.formattedValue} €`
-                }
-              },
               legend: {
                 position: "bottom",
                 labels: {
-                  color: "#1e293b",
+                  color: "#1f2937",
                   font: {
                     size: 13,
                     weight: "600"
                   }
                 }
+              },
+              tooltip: {
+                backgroundColor: "#ffffff",
+                borderColor: "#e5e7eb",
+                borderWidth: 1,
+                titleColor: "#111827",
+                bodyColor: "#4b5563",
+                titleFont: { weight: '700' },
+                bodyFont: { weight: '500' },
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: ctx => `${ctx.dataset.label} : ${ctx.formattedValue} €`
+                }
               }
+            },
+            interaction: {
+              mode: 'nearest',
+              intersect: false
             },
             scales: {
               y: {
                 ticks: {
-                  color: "#64748b",
+                  color: "#6b7280",
                   callback: value => value + " €"
                 },
                 grid: {
-                  color: "rgba(100,100,100,0.05)"
+                  color: "rgba(0,0,0,0.04)"
                 }
               },
               x: {
                 ticks: {
-                  color: "#64748b"
+                  color: "#6b7280"
                 },
                 grid: {
                   display: false
@@ -171,5 +147,4 @@ canvas {
   </script>
 </body>
 </html>
-
 
