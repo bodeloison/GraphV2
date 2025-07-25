@@ -1,55 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <title>Comparatif ARENH – papernest</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      background-color: #f9fafb;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 60px 16px 40px;
-      box-sizing: border-box;
-    }
-
-    .chart-wrapper {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-      padding: 28px 20px 20px;
-      max-width: 920px;
-      width: 100%;
-    }
-
-    h1 {
-      font-size: 24px;
-      font-weight: 600;
-      text-align: center;
-      margin-bottom: 28px;
-      color: #3f3f46;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: auto !important;
-    }
-  </style>
-</head>
-<body>
-  <div class="chart-wrapper">
-    <h1>📈 Prix de l’électricité : avec ou sans ARENH</h1>
-    <canvas id="myChart"></canvas>
-  </div>
-
-  <script>
-    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx6EhytRbWApgeu6Xzrx9rB-ljbk5rmDNb1zTpNA04gPbw5_1J5nsU4iLDymQ0ymGWgc4iPELmseN4/pub?gid=1717395148&single=true&output=csv";
+<!doctypehtml><html lang="fr"><meta charset="UTF-8"><title>Comparatif ARENH – papernest</title><link href="https://fonts.googleapis.com"rel="preconnect"><link href="https://fonts.gstatic.com"rel="preconnect"crossorigin><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"rel="stylesheet"><style>body{margin:0;background-color:#f9fafb;font-family:Inter,sans-serif;display:flex;justify-content:center;align-items:flex-start;padding:60px 16px 40px;box-sizing:border-box}.chart-wrapper{background:#fff;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.05);padding:28px 20px 20px;max-width:920px;width:100%}h1{font-size:24px;font-weight:600;text-align:center;margin-bottom:28px;color:#3f3f46}canvas{width:100%!important;height:auto!important}</style><div class="chart-wrapper"><h1>📈 Prix de l’électricité : avec ou sans ARENH</h1><canvas id="myChart"></canvas></div><script>const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx6EhytRbWApgeu6Xzrx9rB-ljbk5rmDNb1zTpNA04gPbw5_1J5nsU4iLDymQ0ymGWgc4iPELmseN4/pub?gid=1717395148&single=true&output=csv";
 
     fetch(csvUrl)
       .then(res => res.text())
@@ -155,8 +104,5 @@
             }
           });
         });
-      });
-  </script>
-</body>
-</html>
+      });</script>
 
