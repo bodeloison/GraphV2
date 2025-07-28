@@ -2,29 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Graphique ARENH ultra rapide</title>
+  <title>Comparatif ARENH – papernest</title>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: #fff;
-      font-family: sans-serif;
+      padding: 32px 16px;
+      background-color: #f9fafb;
+      font-family: system-ui, sans-serif;
       display: flex;
       justify-content: center;
-      padding: 20px;
     }
 
-    .wrapper {
-      width: 100%;
+    .chart-wrapper {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
       max-width: 800px;
+      width: 100%;
+      box-shadow: 0 4px 16px rgba(90, 82, 255, 0.07);
     }
 
     h2 {
-      font-size: 18px;
+      font-size: 20px;
+      font-weight: 600;
       text-align: center;
-      margin-bottom: 16px;
-      color: #333;
+      margin-bottom: 20px;
+      color: #5a52ff;
     }
 
     canvas {
@@ -34,8 +38,8 @@
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <h2>Comparatif ARENH</h2>
+  <div class="chart-wrapper">
+    <h2>📈 Prix avec et sans ARENH</h2>
     <canvas id="myChart"></canvas>
   </div>
 
@@ -43,39 +47,41 @@
     const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQx6EhytRbWApgeu6Xzrx9rB-ljbk5rmDNb1zTpNA04gPbw5_1J5nsU4iLDymQ0ymGWgc4iPELmseN4/pub?gid=1717395148&single=true&output=csv";
 
     fetch(csvUrl)
-      .then(r => r.text())
-      .then(data => {
-        const rows = data.trim().split("\n").slice(1);
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n").slice(1);
         const labels = [], wARENH = [], woARENH = [];
 
         rows.forEach(row => {
-          const [date, val1, val2] = row.split(",");
+          const [date, v1, v2] = row.split(",");
           labels.push(date);
-          wARENH.push(+val1);
-          woARENH.push(+val2);
+          wARENH.push(parseFloat(v1));
+          woARENH.push(parseFloat(v2));
         });
 
-        new Chart(document.getElementById("myChart"), {
-          type: "line",
+        const ctx = document.getElementById("myChart").getContext("2d");
+
+        new Chart(ctx, {
+          type: 'line',
           data: {
-            labels,
+            labels: labels,
             datasets: [
               {
-                label: "Avec ARENH",
+                label: 'Avec ARENH',
                 data: wARENH,
-                borderColor: "#10b981",
-                backgroundColor: "transparent",
-                fill: false,
-                tension: 0,
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16,185,129,0.08)',
+                fill: true,
+                tension: 0.3,
                 pointRadius: 0
               },
               {
-                label: "Sans ARENH",
+                label: 'Sans ARENH',
                 data: woARENH,
-                borderColor: "#3b82f6",
-                backgroundColor: "transparent",
-                fill: false,
-                tension: 0,
+                borderColor: '#5a52ff',
+                backgroundColor: 'rgba(90,82,255,0.08)',
+                fill: true,
+                tension: 0.3,
                 pointRadius: 0
               }
             ]
@@ -83,9 +89,27 @@
           options: {
             animation: false,
             responsive: true,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
             plugins: {
-              legend: { display: false },
+              legend: {
+                position: 'bottom',
+                labels: {
+                  color: '#1e293b',
+                  font: { size: 13, weight: '600' }
+                }
+              },
               tooltip: {
+                backgroundColor: "#ffffff",
+                borderColor: "#e5e7eb",
+                borderWidth: 1,
+                titleColor: "#1e293b",
+                bodyColor: "#475569",
+                padding: 10,
+                titleFont: { weight: '700' },
+                bodyFont: { weight: '500' },
                 callbacks: {
                   label: ctx => `${ctx.dataset.label}: ${ctx.formattedValue} €`
                 }
@@ -94,13 +118,17 @@
             scales: {
               y: {
                 ticks: {
-                  callback: v => v + " €",
-                  color: "#555"
+                  color: "#6b7280",
+                  callback: v => v + " €"
                 },
-                grid: { display: false }
+                grid: {
+                  color: "rgba(0,0,0,0.04)"
+                }
               },
               x: {
-                ticks: { color: "#555" },
+                ticks: {
+                  color: "#6b7280"
+                },
                 grid: { display: false }
               }
             }
@@ -110,4 +138,3 @@
   </script>
 </body>
 </html>
-
