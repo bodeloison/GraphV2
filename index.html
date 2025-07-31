@@ -8,28 +8,32 @@
   <style>
     body {
       margin: 0;
+      background-color: #f9fafb;
       font-family: 'Inter', sans-serif;
-      background: #ffffff;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       padding: 60px 16px 40px;
       box-sizing: border-box;
     }
+
     .chart-wrapper {
       background: #ffffff;
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-      padding: 32px 24px;
-      max-width: 900px;
+      padding: 32px 24px 24px;
+      max-width: 940px;
       width: 100%;
     }
+
     h1 {
       font-size: 24px;
+      font-weight: 600;
       text-align: center;
-      color: #5a52ff;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
+      color: #1f2937;
     }
+
     canvas {
       width: 100% !important;
       height: auto !important;
@@ -38,7 +42,7 @@
 </head>
 <body>
   <div class="chart-wrapper">
-    <h1>📈 Comparatif des prix avec et sans ARENH</h1>
+    <h1>📊 Comparatif des prix de l'électricité avec et sans ARENH</h1>
     <canvas id="myChart"></canvas>
   </div>
 
@@ -46,15 +50,24 @@
     const jsonUrl = "https://raw.githubusercontent.com/bodeloison/GraphV2/main/data.json";
 
     fetch(jsonUrl)
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
-        const labels = data.map(row => row.Date);
+        const labels = data.map(row => row.Date.slice(0, 10));
         const wARENH = data.map(row => parseFloat(row.wARENH));
         const woARENH = data.map(row => parseFloat(row.woARENH));
 
-        const ctx = document.getElementById('myChart').getContext('2d');
+        const ctx = document.getElementById("myChart").getContext("2d");
+
+        const gradientBlue = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientBlue.addColorStop(0, "rgba(56, 189, 248, 0.4)");
+        gradientBlue.addColorStop(1, "rgba(56, 189, 248, 0)");
+
+        const gradientGreen = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientGreen.addColorStop(0, "rgba(16, 185, 129, 0.4)");
+        gradientGreen.addColorStop(1, "rgba(16, 185, 129, 0)");
+
         new Chart(ctx, {
-          type: 'line',
+          type: "line",
           data: {
             labels: labels,
             datasets: [
@@ -62,19 +75,21 @@
                 label: "Avec ARENH",
                 data: wARENH,
                 borderColor: "#10b981",
-                backgroundColor: "rgba(16, 185, 129, 0.2)",
+                backgroundColor: gradientGreen,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 2
+                pointRadius: 2,
+                pointBackgroundColor: "#10b981"
               },
               {
                 label: "Sans ARENH",
                 data: woARENH,
-                borderColor: "#3b82f6",
-                backgroundColor: "rgba(59, 130, 246, 0.2)",
+                borderColor: "#38bdf8",
+                backgroundColor: gradientBlue,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 2
+                pointRadius: 2,
+                pointBackgroundColor: "#38bdf8"
               }
             ]
           },
@@ -82,18 +97,50 @@
             responsive: true,
             plugins: {
               legend: {
-                position: 'bottom'
+                position: "bottom",
+                labels: {
+                  color: "#1f2937",
+                  font: {
+                    size: 13,
+                    weight: "600"
+                  }
+                }
               },
               tooltip: {
+                backgroundColor: "#ffffff",
+                borderColor: "#e5e7eb",
+                borderWidth: 1,
+                titleColor: "#111827",
+                bodyColor: "#4b5563",
+                titleFont: { weight: '700' },
+                bodyFont: { weight: '500' },
+                padding: 10,
+                cornerRadius: 8,
                 callbacks: {
                   label: ctx => `${ctx.dataset.label} : ${ctx.formattedValue} €`
                 }
               }
             },
+            interaction: {
+              mode: 'nearest',
+              intersect: false
+            },
             scales: {
               y: {
                 ticks: {
-                  callback: val => val + " €"
+                  color: "#6b7280",
+                  callback: value => value + " €"
+                },
+                grid: {
+                  color: "rgba(0,0,0,0.04)"
+                }
+              },
+              x: {
+                ticks: {
+                  color: "#6b7280"
+                },
+                grid: {
+                  display: false
                 }
               }
             }
@@ -103,4 +150,5 @@
   </script>
 </body>
 </html>
+
 
