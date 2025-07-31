@@ -31,7 +31,7 @@
       font-weight: 600;
       text-align: center;
       margin-bottom: 32px;
-      color: #5a52ff;
+      color: #1f2937;
     }
 
     canvas {
@@ -47,24 +47,24 @@
   </div>
 
   <script>
-    const jsonUrl = ""https://raw.githubusercontent.com/bodeloison/GraphV2/main/data.json"";
+    const jsonUrl = "https://raw.githubusercontent.com/bodeloison/GraphV2/main/data.json";
 
     fetch(jsonUrl)
       .then(res => res.json())
       .then(data => {
-        const labels = data.map(d => new Date(d.Date).toLocaleDateString("fr-FR", { year: 'numeric', month: 'short' }));
-        const wARENH = data.map(d => d.wARENH);
-        const woARENH = data.map(d => d.woARENH);
+        const labels = data.map(d => d.Date);
+        const wARENH = data.map(d => parseFloat(d.wARENH));
+        const woARENH = data.map(d => parseFloat(d.woARENH));
 
         const ctx = document.getElementById("myChart").getContext("2d");
 
         const gradientBlue = ctx.createLinearGradient(0, 0, 0, 300);
-        gradientBlue.addColorStop(0, "rgba(90, 82, 255, 0.3)");
-        gradientBlue.addColorStop(1, "rgba(90, 82, 255, 0)");
+        gradientBlue.addColorStop(0, "rgba(56, 189, 248, 0.4)");
+        gradientBlue.addColorStop(1, "rgba(56, 189, 248, 0)");
 
         const gradientGreen = ctx.createLinearGradient(0, 0, 0, 300);
-        gradientGreen.addColorStop(0, "rgba(0, 204, 153, 0.3)");
-        gradientGreen.addColorStop(1, "rgba(0, 204, 153, 0)");
+        gradientGreen.addColorStop(0, "rgba(16, 185, 129, 0.4)");
+        gradientGreen.addColorStop(1, "rgba(16, 185, 129, 0)");
 
         new Chart(ctx, {
           type: "line",
@@ -74,22 +74,22 @@
               {
                 label: "Avec ARENH",
                 data: wARENH,
-                borderColor: "#00cc99",
+                borderColor: "#10b981",
                 backgroundColor: gradientGreen,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 3,
-                pointBackgroundColor: "#00cc99"
+                pointRadius: 2,
+                pointBackgroundColor: "#10b981"
               },
               {
                 label: "Sans ARENH",
                 data: woARENH,
-                borderColor: "#5a52ff",
+                borderColor: "#38bdf8",
                 backgroundColor: gradientBlue,
                 fill: true,
                 tension: 0.3,
-                pointRadius: 3,
-                pointBackgroundColor: "#5a52ff"
+                pointRadius: 2,
+                pointBackgroundColor: "#38bdf8"
               }
             ]
           },
@@ -112,6 +112,8 @@
                 borderWidth: 1,
                 titleColor: "#111827",
                 bodyColor: "#4b5563",
+                titleFont: { weight: '700' },
+                bodyFont: { weight: '500' },
                 padding: 10,
                 cornerRadius: 8,
                 callbacks: {
@@ -130,7 +132,7 @@
                   callback: value => value + " €"
                 },
                 grid: {
-                  color: "rgba(0,0,0,0.05)"
+                  color: "rgba(0,0,0,0.04)"
                 }
               },
               x: {
@@ -148,5 +150,3 @@
   </script>
 </body>
 </html>
-
-
