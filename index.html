@@ -52,7 +52,10 @@
     fetch(jsonUrl)
       .then(res => res.json())
       .then(data => {
-        const labels = data.map(d => d.Date);
+        const labels = data.map(d => {
+  const date = new Date(d.Date);
+  return date.toLocaleDateString('fr-FR'); // format jour/mois/année
+});
         const wARENH = data.map(d => parseFloat(d.wARENH));
         const woARENH = data.map(d => parseFloat(d.woARENH));
 
